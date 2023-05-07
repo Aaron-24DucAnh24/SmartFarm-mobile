@@ -1,10 +1,6 @@
 
 import { StyleSheet } from "react-native"
-
-const color = {
-    darkBlue: '#2a78e4',
-    white: '#ffffff'
-}
+import color from "../../assets/color"
 
 const styles = StyleSheet.create({
     section: {
@@ -21,7 +17,7 @@ const styles = StyleSheet.create({
     },
 
     inactiveSection: {
-        backgroundColor: 'silver',
+        backgroundColor: color.lightSilver,
         minHeight: 60,
         width: '100%',
         marginTop: 32,
@@ -34,7 +30,7 @@ const styles = StyleSheet.create({
     },
 
     boxShadow: {
-        shadowColor: '#000',
+        shadowColor: color.black,
         shadowOffset: { width: 0, height: 8 },
         shadowOpacity:  0.4,
         elevation: 5,
@@ -52,7 +48,8 @@ const styles = StyleSheet.create({
 
     deviceName: {
         fontSize: 16,
-        fontWeight: 500
+        fontWeight: 500,
+        color: color.black
     }
 
 })

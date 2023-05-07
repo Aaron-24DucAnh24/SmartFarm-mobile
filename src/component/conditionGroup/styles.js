@@ -1,10 +1,7 @@
 
 import { StyleSheet } from "react-native"
-
-const color = {
-    darkBlue: '#2a78e4',
-    white: '#ffffff'
-}
+import color from "../../assets/color"
+import { Platform } from "react-native"
 
 const styles = StyleSheet.create({
 
@@ -21,7 +18,7 @@ const styles = StyleSheet.create({
     },
 
     boxShadow: {
-        shadowColor: '#000',
+        shadowColor: color.black,
         shadowOffset: { width: 0, height: 8 },
         shadowOpacity:  0.4,
         borderRadius: 8,
@@ -36,17 +33,20 @@ const styles = StyleSheet.create({
 
     conditionText: {
         fontSize: 18,
-        fontWeight: 300
+        fontWeight: Platform.OS=='ios'?300:400,
+        color: color.black
     },
 
     data: {
         fontSize: 48,
         fontWeight: 500,
+        color: color.black
     },
 
     unit: {
         fontSize: 24,
-        fontWeight: 500
+        fontWeight: 500,
+        color: color.black
     },
 
     dataContainer: {
@@ -54,7 +54,8 @@ const styles = StyleSheet.create({
     },
 
     condition: {
-        paddingBottom: 20
+        paddingBottom: 20,
+        color: color.black
     },
 
     unitContainer: {
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
     },
 
     btn: {
-        backgroundColor: color.darkBlue,
+        backgroundColor: color.blue,
         height: 40,
         width: 110,
         borderRadius: 8,

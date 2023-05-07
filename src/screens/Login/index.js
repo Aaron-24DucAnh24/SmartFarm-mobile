@@ -1,6 +1,7 @@
 import { View, Text, SafeAreaView, TextInput, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import styles from './styles'
+import color from "../../assets/color";
 
 export default function LoginPage ({navigation}) {
 
@@ -36,7 +37,7 @@ export default function LoginPage ({navigation}) {
                         placeholder="Username"
                         autoFocus={true}
                         onChangeText={setUsername}
-                        placeholderTextColor={'#83888A'}
+                        placeholderTextColor={color.lightSilver}
                         value={username}
                     />
                     <TextInput
@@ -44,7 +45,7 @@ export default function LoginPage ({navigation}) {
                         placeholder="Password"
                         secureTextEntry={true}
                         onChangeText={setPassword}
-                        placeholderTextColor={'#83888A'}
+                        placeholderTextColor={color.lightSilver}
                         value={password}
                     />
                 </SafeAreaView>

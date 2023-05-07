@@ -4,6 +4,7 @@ import SwitchToggle from "react-native-switch-toggle"
 import ButtonController from '../../controller/button'
 import React, { useEffect, useState } from 'react'
 import styles from './styles'
+import color from '../../assets/color'
 
 const devices = [
     { name: 'Mini fan', icon: 'fan', feed: 'fan-button' },
@@ -42,7 +43,7 @@ export default function DevicesGroup(props) {
     return (
         <View style={props.autoModeHandler?[styles.boxShadow, styles.section]:props.style}>
             <View style={styles.deviceContainer}>
-                <Icon name={devices[index].icon} size={32} color={'#000'}/>
+                <Icon name={devices[index].icon} size={32} color={color.black}/>
                 <View style={styles.deviceNameContainer}>
                     <Text style={styles.deviceName}>{devices[index].name}</Text>
                 </View>
@@ -51,10 +52,10 @@ export default function DevicesGroup(props) {
             <SwitchToggle
                 switchOn={btn}
                 onPress={inactive?()=>{}:handleBtn}
-                circleColorOff='#fff'
-                circleColorOn='#fff'
-                backgroundColorOn='#2a78e4'
-                backgroundColorOff='#627580'
+                circleColorOff={color.white}
+                circleColorOn={color.white}
+                backgroundColorOn={color.blue}
+                backgroundColorOff={color.silver}
                 containerStyle={{
                     width: 60,
                     height: 25,

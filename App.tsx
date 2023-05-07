@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, Text } from 'react-native';
+import Color from './src/assets/color';
 
 import LoginPage from './src/screens/Login';
 import Home from './src/screens/Home';
@@ -29,8 +30,8 @@ const BottomTabNavigator = () => {
       screenOptions={{
         headerShown: false,
         tabBarIconStyle: {display: 'none'},
-        tabBarActiveTintColor: '#2a78e4',
-        tabBarInactiveTintColor: 'silver',
+        tabBarActiveTintColor: Color.blue,
+        tabBarInactiveTintColor: Color.silver,
         tabBarLabelStyle: {display: 'none'},
         tabBarStyle: {height: 80, bottom: 0, position: 'absolute'}
       }}

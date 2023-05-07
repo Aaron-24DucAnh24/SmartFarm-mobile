@@ -1,8 +1,9 @@
 import { StyleSheet, Platform } from "react-native"
+import color from "../../assets/color"
 
 export default styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
+        backgroundColor: color.white,
         minHeight: 54,
         width: '100%',
         marginBottom: 20,
@@ -11,7 +12,7 @@ export default styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         paddingHorizontal: 12,
-        shadowColor: '#000',
+        shadowColor: color.black,
         shadowOffset: { width: 0, height: 8 },
         shadowOpacity:  0.4,
         borderRadius: 8,
@@ -24,7 +25,7 @@ export default styles = StyleSheet.create({
 
     topicContainer: {
         flex: 1,
-        paddingLeft: 8
+        paddingLeft: 8,
     },
 
     dataContainer: {
@@ -34,23 +35,26 @@ export default styles = StyleSheet.create({
 
     timeText: {
         fontSize: 14,
-        fontWeight: 400
+        fontWeight: 400,
+        color: color.black
     },
 
     topicText: {
         fontSize: 14,
-        fontWeight: 800
+        fontWeight: 800,
+        color: color.black
     },
 
     dataText: {
         fontSize: Platform.OS=='ios'?13:14,
-        fontWeight: 700
+        fontWeight: 700,
+        color: color.black
     },
 
     dataTextDanger: {
         fontSize: Platform.OS=='ios'?13:14,
         fontWeight: 800,
-        color: 'red'
+        color: color.red
     }
 
 })

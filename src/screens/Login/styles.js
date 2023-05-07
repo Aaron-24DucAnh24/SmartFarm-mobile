@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native"
+import color from "../../assets/color"
 
 const styles = StyleSheet.create({
     container: {
@@ -19,6 +20,7 @@ const styles = StyleSheet.create({
     bigIntroText: {
         fontSize: 28,
         fontWeight: 600,
+        color: color.black
     },
 
     smallIntroContainer: {
@@ -28,6 +30,7 @@ const styles = StyleSheet.create({
     smallIntroText: {
         fontSize: 24,
         fontWeight: 400,
+        color: color.black
     },
 
     inputContainer: {
@@ -36,7 +39,7 @@ const styles = StyleSheet.create({
     },
 
     input: {
-        borderColor: 'silver',
+        borderColor: color.silver,
         borderWidth: 1,
         height: 48,
         marginBottom: 20,
@@ -49,8 +52,8 @@ const styles = StyleSheet.create({
 
     button: {
         height: 48,
-        backgroundColor: '#2a78e4',
-        shadowColor: '#000',
+        backgroundColor: color.blue,
+        shadowColor: color.black,
         shadowOffset: { width: 0, height: 8 },
         shadowOpacity:  0.4,
         borderRadius: 8,
@@ -60,7 +63,7 @@ const styles = StyleSheet.create({
     },
 
     buttonText: {
-        color: '#fff',
+        color: color.white,
         fontWeight: 500,
         fontSize: 16,
     }
