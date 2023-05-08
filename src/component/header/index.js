@@ -21,9 +21,7 @@ function Header (props) {
             >
                 <Image
                     style = {styles.avatar}
-                    source={{
-                        uri: 'https://scontent.fsgn5-3.fna.fbcdn.net/v/t39.30808-6/227442517_1522592121412142_6450161726159359699_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=kzYz_fHmv7YAX8CxnLi&_nc_ht=scontent.fsgn5-3.fna&oh=00_AfAgUjnq0cr8CiPB_imfm7-rKAsyI9BUe5lW0R63h_HtoA&oe=643F3A18',
-                    }}
+                    source={require('../../assets/avatar.png')}
                 />
             </TouchableOpacity>
 

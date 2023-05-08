@@ -1,7 +1,7 @@
 # SMART FARM IOT SYSTEM
 ## Requirements
-Setup **React native CLI** development environment
-Make sure you got: JDK 11 for Android, Ruby 3.2.0 (or 2.7.6) and Cocoapods installed in ***usr/local/*** for ios
+1. Setup **React native CLI** development environment.
+2. Make sure you got: JDK 11 for Android, Ruby 3.2.0 (or 2.7.6) and Cocoapods installed in ***usr/local/*** for ios
 ## Setup
 1. Install dependencies.
 ``` shell
