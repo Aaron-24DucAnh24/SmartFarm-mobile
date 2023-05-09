@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, SafeAreaView, TextInput, TouchableOpacity, Alert } from "react-native";
 import React, { useState } from "react";
 import styles from './styles'
 import color from "../../assets/color";
@@ -9,11 +9,13 @@ export default function LoginPage ({navigation}) {
     const [password, setPassword] = useState('')
 
     function handleLogin() {
-        if(username!='' && password!='') {
-            setPassword('')
-            setUsername('')
-            navigation.navigate('main')
+        if(!username || !password) {
+            Alert.alert('Alert', 'Cannot leave login information empty', [{text: 'OK'}])
+            return
         }
+        setPassword('')
+        setUsername('')
+        navigation.navigate('main')
     }
 
     return (

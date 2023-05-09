@@ -41,9 +41,13 @@ export default firebaseConfig
 > Append these lines into the file, replace "___" with appropriate credential for adaFruit authentication.
 
 ``` javascript
-const password =  '____'
-export default password
 
+import { Platform } from "react-native"
+export default {
+    url: Platform.OS=="ios"?'http://127.0.0.1:3000/':'http://10.0.2.2:3000/',
+    username: 'ducanh_24',
+    aioKey: '__',
+}
 ```
 
 ## Run

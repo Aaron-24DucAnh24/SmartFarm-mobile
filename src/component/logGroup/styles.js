@@ -24,8 +24,8 @@ export default styles = StyleSheet.create({
     },
 
     topicContainer: {
-        flex: 1,
-        paddingLeft: 8,
+        flex: 1.1,
+        paddingLeft: Platform.OS=="ios"?0:8,
     },
 
     dataContainer: {
@@ -34,13 +34,13 @@ export default styles = StyleSheet.create({
     },
 
     timeText: {
-        fontSize: 14,
+        fontSize: Platform.OS=="ios"?12:14,
         fontWeight: 400,
         color: color.black
     },
 
     topicText: {
-        fontSize: 14,
+        fontSize: Platform.OS=="ios"?14:16,
         fontWeight: 800,
         color: color.black
     },

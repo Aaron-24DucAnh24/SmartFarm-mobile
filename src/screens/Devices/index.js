@@ -1,10 +1,12 @@
 import { View, Text } from "react-native"
 import styles from "./styles"
 import cStyles from "../../component/devicesGroup/styles"
+import { useEffect, useState } from "react"
+import ButtonController from '../../controller/api/button'
+
 import Header from "../../component/header"
 import DevicesGroup from "../../component/devicesGroup"
-import { useEffect, useState } from "react"
-import ButtonController from '../../controller/button'
+import SettingGroup from "../../component/settingGroup"
 
 const Devices = ({navigation}) => {
 
@@ -70,6 +72,8 @@ const Devices = ({navigation}) => {
                 setBtn={setAuto} 
                 autoModeHandler={autoModeHandler}
             />
+
+            <SettingGroup/>
 
         </View>
     )

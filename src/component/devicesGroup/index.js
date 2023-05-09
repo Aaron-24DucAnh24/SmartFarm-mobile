@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import Icon  from 'react-native-vector-icons/MaterialCommunityIcons'
 import SwitchToggle from "react-native-switch-toggle"
-import ButtonController from '../../controller/button'
+import ButtonController from '../../controller/api/button'
 import React, { useEffect, useState } from 'react'
 import styles from './styles'
 import color from '../../assets/color'
@@ -22,9 +22,15 @@ export default function DevicesGroup(props) {
 
 
     async function handleBtn () {
-        var data = btn?0:1
-        await ButtonController.setButton(devices[index].feed, data)
-        setBtn(!btn)
+        const data = btn?0:1
+        const response = await ButtonController.setButton(devices[index].feed, data)
+        const newBtnValue = response===1?true:false
+
+        if (response === false)
+            return
+
+        setBtn(newBtnValue)
+
         if(props.autoModeHandler) {
             props.autoModeHandler()
         }
@@ -57,7 +63,7 @@ export default function DevicesGroup(props) {
                 backgroundColorOn={color.blue}
                 backgroundColorOff={color.silver}
                 containerStyle={{
-                    width: 60,
+                    width: 65,
                     height: 25,
                     borderRadius: 25,
                     padding: 2,

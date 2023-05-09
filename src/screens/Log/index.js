@@ -1,69 +1,32 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native"
+import { View, Text, ScrollView } from "react-native"
 import styles from "./styles"
 import Header from "../../component/header"
 import LogGroup from "../../component/logGroup"
 import { useEffect, useRef, useState } from "react"
+import { db } from "../../controller/firebase/app"
+import { ref, onChildAdded, limitToLast, query } from 'firebase/database'
 
 const Log = ({navigation}) => {
 
-    // just for test UI
-    const initLogList = [
-        {
-            time: '12/2/2022-12:12:12',
-            topic: 'LED light',
-            data: 'off'
-        },
-        {
-            time: '12/2/2022-12:12:12',
-            topic: 'LED light',
-            data: 'off'
-        },
-        {
-            time: '12/2/2022-12:12:12',
-            topic: 'LED light',
-            data: 'off'
-        },
-        {
-            time: '12/2/2022-12:12:12',
-            topic: 'LED light',
-            data: 'off'
-        },
-        {
-            time: '12/2/2022-12:12:12',
-            topic: 'Humidity',
-            data: 'Over-bound'
-        },
-        {
-            time: '12/2/2022-12:12:12',
-            topic: 'LED light',
-            data: 'off'
-        },
-        {
-            time: '12/2/2022-12:12:12',
-            topic: 'Humidity',
-            data: 'Over-bound'
-        },
-        {
-            time: '12/2/2022-12:12:12',
-            topic: 'LED light',
-            data: 'off'
-        },
-        {
-            time: '12/2/2022-12:12:12',
-            topic: 'Humidity',
-            data: 'Over-bound'
-        }
-    ]
-    //________________
-
-    const [logList, setLogList] = useState(initLogList)
+    const [logList, setLogList] = useState([])
     const scrollRef = useRef()
-    const addLog = (log) => {
-        setLogList([...logList, log])
+
+    function addLog(log) {
+        if(logList.length < 20)
+            setLogList(logList => [...logList, log])
+        else {
+            const [, ...rest] = logList
+            setLogList([...rest, log])
+        }
+        scrollRef.current.scrollToEnd({animated: true})
     }
 
-    useEffect(()=>{
-        scrollRef.current.scrollToEnd({animated: true})
+    useEffect(()=> {
+        const myRef = query(ref(db, 'log'), limitToLast(20))
+
+        onChildAdded(myRef, snapshot => {
+            addLog(snapshot.val())
+        })
     }, [])
 
     return (
