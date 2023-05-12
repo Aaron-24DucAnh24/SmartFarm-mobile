@@ -8,7 +8,7 @@
 ## Setup
 1. Install dependencies.
 
-For ios, open the ios project in XCode. Drop file node_modules/react-native-vector-icons to the XCode project. 
+For ios, open the ios project in XCode. Drop file node_modules/react-native-vector-icons/Fonts to the XCode project. 
 
 > After that, run these command:
 ``` bash
