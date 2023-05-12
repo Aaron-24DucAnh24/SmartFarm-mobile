@@ -63,4 +63,4 @@ yarn-error.log
 .metro-health-check*
 
 src/controller/firebase/config.js
-src/controller/button/config.js
+src/controller/adafruit/config.js

@@ -22,9 +22,9 @@ const Log = ({navigation}) => {
     }
 
     useEffect(()=> {
-        const myRef = query(ref(db, 'log'), limitToLast(20))
+        const logRef = query(ref(db, 'log'), limitToLast(20))
 
-        onChildAdded(myRef, snapshot => {
+        onChildAdded(logRef, snapshot => {
             addLog(snapshot.val())
         })
     }, [])

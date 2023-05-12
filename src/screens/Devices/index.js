@@ -2,11 +2,11 @@ import { View, Text } from "react-native"
 import styles from "./styles"
 import cStyles from "../../component/devicesGroup/styles"
 import { useEffect, useState } from "react"
-import ButtonController from '../../controller/api/button'
-
 import Header from "../../component/header"
 import DevicesGroup from "../../component/devicesGroup"
 import SettingGroup from "../../component/settingGroup"
+import AdaController from '../../controller/adafruit/index'
+import config from "../../controller/adafruit/config"
 
 const Devices = ({navigation}) => {
 
@@ -18,20 +18,51 @@ const Devices = ({navigation}) => {
         = useState([cStyles.boxShadow, cStyles.section])
     
     async function autoModeHandler() {
-        setFan(false)
-        setPump(false)
-        setLed(false)
         setSectionStyle(!auto?[cStyles.inactiveSection]:[cStyles.section, cStyles.boxShadow])
-        await ButtonController.turnoffAll()
+        await AdaController.turnoffAll()
     }
 
     useEffect(()=>{
         const HandleAutoFirst = async () => {
-            const initAuto = await ButtonController.getButton('auto-mode')
+            const initAuto = await AdaController.getFeedValue('auto-mode')
             setAuto(initAuto)
-            if(initAuto) setSectionStyle(!auto?[cStyles.inactiveSection]:[cStyles.section, cStyles.boxShadow])
+            if(initAuto) 
+                await autoModeHandler()
         }
         HandleAutoFirst()
+
+        const mqtt = require('@taoqf/react-native-mqtt')
+        const client = mqtt.connect(config.url, [{
+          username: config.options.username,
+          password: config.options.password,
+          port: config.options.port,
+          host: config.options.host,
+          protocolId: config.options.protocolId,
+          clientId: (Math.random()*1000).toString()
+        }])
+        
+        client.on('connect', () => {
+          client.subscribe('ducanh_24/feeds/light-button')
+          client.subscribe('ducanh_24/feeds/pump-button')
+          client.subscribe('ducanh_24/feeds/fan-button')
+        })
+    
+        client.on('message', async (topic, payload)=> {
+            if(topic.includes('fan')) {
+                setFan(payload.toString()==='1'?true:false)
+            }
+            if(topic.includes('light')){
+                setLed(payload.toString()==='1'?true:false)
+            }
+            if(topic.includes('pump')){
+                setPump(payload.toString()==='1'?true:false)
+            }
+        })
+
+        return ()=> {
+            client.end()
+        }
+
     }, [])
     
     return ( 

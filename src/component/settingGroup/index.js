@@ -4,7 +4,8 @@ import styles from "./style"
 import Icon from 'react-native-vector-icons/Ionicons'
 import color from "../../assets/color"
 import { Platform } from "react-native"
-import thresholdsController from "../../controller/api/thresholds"
+import { db } from "../../controller/firebase/app"
+import { onValue, ref, set } from "firebase/database"
 
 export default function SettingGroup(props) {
 
@@ -22,28 +23,27 @@ export default function SettingGroup(props) {
             return
         }
         if(temp) {
-            await thresholdsController.setThreshold('temperature', parseInt(temp))
-            setPreTemp(temp.toString() + ' °C')
+            set(ref(db, '/threshold/temperature'), parseInt(temp))
             setTemp('')
         }
         if(humi) {
-            await thresholdsController.setThreshold('humidity', parseInt(humi))
-            setPreHumi(humi.toString() + ' %')
+            set(ref(db, '/threshold/humidity'), parseInt(humi))
             setHumi('')
         }
         if(light) {
-            await thresholdsController.setThreshold('light', parseInt(light))
-            setPreLight(light.toString() + ' Lux')
+            set(ref(db, '/threshold/light'), parseInt(light))
             setLight('')
         }
     }
 
     useEffect(()=> {
-        const preSetThreshold = async () => {
+        const thresholdRef = ref(db, 'threshold')
 
-        }
-
-        preSetThreshold()
+        onValue(thresholdRef, snapshot => {
+            setPreTemp(snapshot.val().temperature.toString())
+            setPreHumi(snapshot.val().humidity.toString())
+            setPreLight(snapshot.val().light.toString())
+        })
 
     }, [])
 
@@ -68,7 +68,7 @@ export default function SettingGroup(props) {
                     <Text style={styles.itemText}>{'Max temperature'}</Text>
                     <TextInput 
                         style={styles.input}
-                        placeholder={preTemp}
+                        placeholder={`${preTemp} °C`}
                         keyboardType={Platform.OS=="ios"?"numbers-and-punctuation":"decimal-pad"}
                         value={temp}
                         onChangeText={setTemp}
@@ -79,7 +79,7 @@ export default function SettingGroup(props) {
                     <Text style={styles.itemText}>{'Min humidity'}</Text>
                     <TextInput 
                         style={styles.input}
-                        placeholder={preHumi}
+                        placeholder={`${preHumi} %`}
                         keyboardType={Platform.OS=="ios"?"numbers-and-punctuation":"decimal-pad"}
                         value={humi}
                         onChangeText={setHumi}
@@ -90,7 +90,7 @@ export default function SettingGroup(props) {
                     <Text style={styles.itemText}>{'Min light intensity'}</Text>
                     <TextInput 
                         style={styles.input}
-                        placeholder={preLight}
+                        placeholder={`${preLight} lux`}
                         keyboardType={Platform.OS=="ios"?"numbers-and-punctuation":"decimal-pad"}
                         value={light}
                         onChangeText={setLight}

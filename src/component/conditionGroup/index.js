@@ -32,7 +32,7 @@ function ConditionGroup(props) {
                 </View>
                 <View style={styles.dataContainer}>
                     <Text style={styles.data}>
-                        {props.data?.value||'__'}
+                        {props.data}
                     </Text>
                     <View style={styles.unitContainer}>
                         <Text style={styles.unit}>

@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import Icon  from 'react-native-vector-icons/MaterialCommunityIcons'
 import SwitchToggle from "react-native-switch-toggle"
-import ButtonController from '../../controller/api/button'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import styles from './styles'
 import color from '../../assets/color'
+import AdaController from '../../controller/adafruit'
 
 const devices = [
     { name: 'Mini fan', icon: 'fan', feed: 'fan-button' },
@@ -15,31 +15,32 @@ const devices = [
 
 export default function DevicesGroup(props) {
 
-    const index = props.index
-    const btn   = props.btn
-    const setBtn = props.setBtn
-    const inactive = (typeof props.inactive)=='boolean'?props.inactive:false
-
+    const index    = props.index
+    const btn      = props.btn
+    const setBtn   = props.setBtn
+    const inactive = props.inactive
 
     async function handleBtn () {
-        const data = btn?0:1
-        const response = await ButtonController.setButton(devices[index].feed, data)
-        const newBtnValue = response===1?true:false
-
-        if (response === false)
-            return
-
-        setBtn(newBtnValue)
-
         if(props.autoModeHandler) {
+            const data = btn?0:1
+            setBtn(!btn)
+            await AdaController.setButton(devices[index].feed, data)
             props.autoModeHandler()
+        } else {
+            if(inactive)
+                return
+            else {
+                const data = btn?0:1
+                setBtn(!btn)
+                await AdaController.setButton(devices[index].feed, data)
+            }
         }
     }
 
     useEffect(() => {
         const SetButtonFirst = async () => {
             if(index!=3){
-                const initBtn = await ButtonController.getButton(devices[index].feed)
+                const initBtn = await AdaController.getFeedValue(devices[index].feed)
                 setBtn(initBtn)
             }
         }
@@ -57,7 +58,7 @@ export default function DevicesGroup(props) {
 
             <SwitchToggle
                 switchOn={btn}
-                onPress={inactive?()=>{}:handleBtn}
+                onPress={handleBtn}
                 circleColorOff={color.white}
                 circleColorOn={color.white}
                 backgroundColorOn={color.blue}
