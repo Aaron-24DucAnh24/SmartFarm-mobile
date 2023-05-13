@@ -1,55 +1,63 @@
-import { View, Text, ScrollView } from "react-native"
-import styles from "./styles"
-import Header from "../../component/header"
-import LogGroup from "../../component/logGroup"
-import { useEffect, useRef, useState } from "react"
-import { db } from "../../controller/firebase/app"
-import { ref, onChildAdded, limitToLast, query } from 'firebase/database'
+import {View, Text, ScrollView} from 'react-native';
+import styles from './styles';
+import Header from '../../component/header';
+import LogGroup from '../../component/logGroup';
+import {useEffect, useRef, useState} from 'react';
+import database from '@react-native-firebase/database'
 
+const LOGS_MAX_LENGTH = 20;
 const Log = ({navigation}) => {
+  const [logList, setLogList] = useState([]);
+  const scrollRef = useRef();
+  const isLoading = useRef(true);
 
-    const [logList, setLogList] = useState([])
-    const scrollRef = useRef()
+  const handleOnNewLog = () => {
+    scrollRef.current && scrollRef.current.scrollTo({ y: 0, animated: true });
+  };
 
-    function addLog(log) {
-        if(logList.length < 20)
-            setLogList(logList => [...logList, log])
-        else {
-            const [, ...rest] = logList
-            setLogList([...rest, log])
-        }
-        scrollRef.current.scrollToEnd({animated: true})
-    }
+  useEffect(() => {
+    database().ref('/log')
+        .orderByChild('time')
+        .limitToFirst(LOGS_MAX_LENGTH)
+        .once('value')
+        .then(snapshot => {
+          const logs = Object.values(snapshot.val());
+          setLogList(logs);
+          isLoading.current = false;
+        });
 
-    useEffect(()=> {
-        const logRef = query(ref(db, 'log'), limitToLast(20))
+    const newLogHandler = database().ref('/log').on('child_added', (snap) => {
+      if (isLoading.current) {
+        return;
+      }
+      setLogList(prev => [ snap.val(), ...prev].slice(0, LOGS_MAX_LENGTH));
+    });
 
-        onChildAdded(logRef, snapshot => {
-            addLog(snapshot.val())
-        })
-    }, [])
+    return () => newLogHandler && database().ref('/log').off('value', newLogHandler)
+  }, []);
 
-    return (
-        <View style={styles.container}>
-            <Header nav={navigation}/>
+  return (
+    <View style={styles.container}>
+      <Header nav={navigation} />
 
-            <View style={styles.screenNameContainer}>
-                <Text style={styles.screenName}>System logs</Text>
-            </View>
+      <View style={styles.screenNameContainer}>
+        <Text style={styles.screenName}>System logs</Text>
+      </View>
 
-            <ScrollView 
-                style={styles.scrollView}
-                ref={scrollRef}
-                onContentSizeChange={()=>scrollRef.current.scrollToEnd()}
-            >
-                {
-                    logList.map((log, index) => {
-                        return <LogGroup log={log} key={index}/>
-                    })
-                }
-            </ScrollView>
-        </View>
-    )
-}
+      <ScrollView
+        style={styles.scrollView}
+        ref={scrollRef}
+        onContentSizeChange={handleOnNewLog}
+        >
+        {logList.map((log, index) => (
+          <LogGroup
+            key={index}
+            data={log}
+          />
+        ))}
+      </ScrollView>
+    </View>
+  );
+};
 
-export default Log
+export default Log;
