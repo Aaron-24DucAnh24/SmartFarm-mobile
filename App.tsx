@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import messaging from '@react-native-firebase/messaging';
-import {Alert, PermissionsAndroid} from 'react-native';
-
+import { requestUserPermission, notificationListener } from './src/notification'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -58,28 +56,13 @@ const BottomTabNavigator = () => {
   );
 };
 
-
-
 export default function App() {
   const [ loading, setLoading ] = useState(true);
 
-  // useEffect(() => {
-  //   const subscribeNotification = async () => {
-  //     setLoading(true);
-  //     await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
-  //     await messaging().getToken();
-  //     await messaging().subscribeToTopic('notify');
-  //     setLoading(false);
-  //   };
-  //   subscribeNotification();
-  // }, []);
-
-  // useEffect(() => {
-  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
-  //     Alert.alert(JSON.stringify(remoteMessage));
-  //   });
-  //   return unsubscribe;
-  // }, []);
+  useEffect(() => {
+    requestUserPermission(setLoading)
+    notificationListener()
+  }, []);
 
   return (
     <>
