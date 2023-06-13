@@ -1,5 +1,5 @@
 import messaging from '@react-native-firebase/messaging'
-import { PermissionsAndroid, Platform } from 'react-native'
+import { Alert, PermissionsAndroid, Platform } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export async function requestUserPermission(setLoading) {
@@ -16,6 +16,7 @@ export async function notificationListener() {
 
     messaging().onMessage(async remoteMessage => {
         console.log('Receive message ', remoteMessage);
+        Alert.alert(remoteMessage.notification.title, remoteMessage.notification.body)
     })
 
     messaging().getInitialNotification()
@@ -29,9 +30,11 @@ export async function notificationListener() {
 async function getToken() {
     let token = await AsyncStorage.getItem('token')
     console.log('The old token', token)
+    await messaging().subscribeToTopic('notify')
 
     if(!token) {
         try {
+            await messaging().registerDeviceForRemoteMessages()
             const token = await messaging().getToken()
             if(token) {
                 console.log('The new token', token)
@@ -41,4 +44,8 @@ async function getToken() {
             console.log('Error from token', error)
         }
     }
+}
+
+export async function unsubscribe() {
+    messaging().unsubscribeFromTopic('notify')
 }

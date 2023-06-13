@@ -30,6 +30,13 @@
             {
               "client_id": "136960933777-184cpqtp0j5dma9lnsa4tsvl8vstfemo.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "136960933777-3u9v9c51kr8ut90pjnbtlrhqn75iel46.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.SmartFarm"
+              }
             }
           ]
         }

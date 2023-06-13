@@ -25,21 +25,21 @@ export default function SettingGroup(props) {
         }
         if (light) {
             await thresholdRef.update({
-                light,
+                light:Number(light),
             });
             setPreLight(light);
         }
 
         if (humi) {
             await thresholdRef.update({
-                humi,
+                humidity: Number(humi),
             });
             setPreHumi(humi);
         }
 
         if (temp) {
             await thresholdRef.update({
-                temp,
+                temperature: Number(temp),
             });
             setPreTemp(temp);
         }

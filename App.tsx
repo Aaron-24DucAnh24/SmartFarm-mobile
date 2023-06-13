@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { requestUserPermission, notificationListener } from './src/notification'
+import { requestUserPermission, notificationListener, unsubscribe } from './src/notification'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -62,6 +62,9 @@ export default function App() {
   useEffect(() => {
     requestUserPermission(setLoading)
     notificationListener()
+    return () => {
+      unsubscribe()
+    }
   }, []);
 
   return (

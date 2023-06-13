@@ -14,7 +14,7 @@ export default function LogGroup({data}) {
 
     const {time, value, feed, event} = data;
 
-    const timeString = new Date(time).toUTCString();
+    const timeString = new Date(time*1000).toUTCString();
 
     return (
         <View style={styles.container}>

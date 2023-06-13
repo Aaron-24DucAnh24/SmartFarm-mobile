@@ -50,7 +50,6 @@ const Home = ({navigation}) => {
       if (topic.includes('light')) {
         setLight(payload.toString());
       }
-      console.log('ok');
     });
 
     return () => {
